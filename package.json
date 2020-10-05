@@ -18,7 +18,7 @@
     "elasticsearch"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "types": "typings/index.d.ts",
   "sideEffects": false,
   "engines": {
@@ -27,7 +27,9 @@
   "files": [
     "src",
     "lib",
-    "typings"
+    "typings",
+    "index.js",
+    "gatsby-node.js"
   ],
   "scripts": {
     "clean": "rimraf lib types",

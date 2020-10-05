@@ -1,0 +1,15 @@
+{
+  "ignore": ["**/*.d.ts"],
+  "presets": [
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": 10
+        }
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-optional-chaining", "@babel/plugin-proposal-nullish-coalescing-operator"]
+}

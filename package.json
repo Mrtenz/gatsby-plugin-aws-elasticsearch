@@ -39,7 +39,8 @@
     "lint:source": "eslint . --ignore-path .gitignore --ext .ts,.tsx,.js,.jsx",
     "lint:format": "prettier --check --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'",
     "test": "jest",
-    "format": "prettier --write --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'"
+    "format": "prettier --write --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'",
+    "prepare": "yarn build"
   },
   "dependencies": {
     "aws4": "^1.10.1",

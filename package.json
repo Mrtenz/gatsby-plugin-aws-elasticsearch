@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-aws-elasticsearch",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A plugin for Gatsby to synchronise content between Gatsby and AWS Elasticsearch",
   "author": "Maarten Zuidhoorn <maarten@zuidhoorn>",
   "homepage": "https://github.com/Mrtenz/gatsby-plugin-aws-elasticsearch",

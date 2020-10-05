@@ -79,6 +79,12 @@
           }
         ]
       }
+    },
+    {
+      "files": ["gatsby-node.js"],
+      "env": {
+        "node": true
+      }
     }
   ]
 }

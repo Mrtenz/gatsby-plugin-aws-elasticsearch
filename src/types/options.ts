@@ -1,26 +1,41 @@
 import { AWSCredentials } from 'aws4';
+import { array, boolean, defaulted, func, object, optional, record, string, StructType } from 'superstruct';
 import { DefaultDocument, DocumentID } from './document';
 
-export interface MappingOptions {
-  [key: string]: {
-    type: string;
-    index?: boolean;
-  };
-}
+export const OptionsStruct = defaulted(
+  object({
+    enabled: optional(boolean()),
+    query: string(),
+    selector: func(),
+    toDocument: func(),
+    endpoint: string(),
+    index: string(),
+
+    accessKeyId: string(),
+    secretAccessKey: string(),
+
+    mapping: record(
+      string(),
+      object({
+        type: string(),
+        index: optional(boolean())
+      })
+    ),
+
+    // Gatsby includes a plugins array by default
+    plugins: array()
+  }),
+  {
+    enabled: false
+  }
+);
 
 export type Options<
   Data = unknown,
   Node = Record<string, unknown>,
   Document extends DocumentID = DefaultDocument
-> = AWSCredentials & {
-  enabled: boolean;
-
-  query: string;
-  selector(data: Data): Node[];
-  toDocument(node: Node): Document;
-
-  mapping?: MappingOptions;
-
-  endpoint: string;
-  index: string;
-};
+> = AWSCredentials &
+  StructType<typeof OptionsStruct> & {
+    selector(data: Data): Node[];
+    toDocument(node: Node): Document;
+  };

@@ -1,34 +1,27 @@
 import { BuildArgs } from 'gatsby';
+import { validate } from 'superstruct';
 import { createIndex, listDocuments, setMapping } from './elasticsearch';
 import { checkDocument, checkNode } from './matcher';
-import { Options } from './types';
-
-export * from './types';
+import { Options, OptionsStruct } from './types';
 
 /**
  * Hooks into Gatsby's build process. This function fetches and parses the data to synchronise with AWS Elasticsearch.
  */
-export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, options: Options): Promise<void> => {
-  if (!options) {
-    return reporter.panic('Missing options');
-  }
-
-  if (!options.enabled) {
+export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, rawOptions: Options): Promise<void> => {
+  if (!rawOptions || !rawOptions.enabled) {
     return reporter.info('Skipping synchronisation with Elasticsearch');
   }
 
-  // TODO: Better option validation
-  if (!options.query || !options.selector || !options.toDocument || !options.index || !options.endpoint) {
-    return reporter.panic('Missing options');
+  const [error, validatedOptions] = validate(rawOptions, OptionsStruct);
+  if (error || !validatedOptions) {
+    return reporter.panic('gatsby-plugin-aws-elasticsearch: Invalid or missing options:', error);
   }
 
-  if (!options.accessKeyId || !options.secretAccessKey) {
-    return reporter.panic('Missing authentication credentials');
-  }
+  const options = validatedOptions as Options;
 
   const { errors, data } = await graphql(options.query as string);
   if (errors) {
-    return reporter.panic('Failed to run query');
+    return reporter.panic('gatsby-plugin-aws-elasticsearch: Failed to run query:', errors);
   }
 
   try {
@@ -41,6 +34,6 @@ export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, op
     await Promise.all(nodes.map((node) => checkNode(node, documents, options)));
     await Promise.all(documents.map((document) => checkDocument(document, nodes, options)));
   } catch (error) {
-    return reporter.panic('Failed to synchronise with Elasticsearch:', error);
+    return reporter.panic('gatsby-plugin-aws-elasticsearch: Failed to synchronise with Elasticsearch:', error);
   }
 };

@@ -1,5 +1,5 @@
 import { sendRequest } from './api';
-import { DefaultDocument, DocumentHit, DocumentID, MappingOptions, Options } from './types';
+import { DefaultDocument, DocumentHit, DocumentID, Options } from './types';
 
 const getIndex = async (options: Options): Promise<boolean> => {
   // TODO: Response type
@@ -22,7 +22,7 @@ export const createIndex = async (options: Options): Promise<void> => {
 };
 
 export interface SetMappingRequest {
-  properties: MappingOptions;
+  properties: Options['mapping'];
 }
 
 export const setMapping = async (options: Options): Promise<void> => {

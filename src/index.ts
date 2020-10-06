@@ -1,5 +1,5 @@
 import { BuildArgs } from 'gatsby';
-import { listDocuments } from './elasticsearch';
+import { createIndex, listDocuments, setMapping } from './elasticsearch';
 import { checkDocument, checkNode } from './matcher';
 import { Options } from './types';
 
@@ -31,10 +31,13 @@ export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, op
     return reporter.panic('Failed to run query');
   }
 
-  const nodes = options.selector(data).map((node) => options.toDocument(node));
-  const documents = await listDocuments(options);
-
   try {
+    await createIndex(options);
+    await setMapping(options);
+
+    const nodes = options.selector(data).map((node) => options.toDocument(node));
+    const documents = await listDocuments(options);
+
     await Promise.all(nodes.map((node) => checkNode(node, documents, options)));
     await Promise.all(documents.map((document) => checkDocument(document, nodes, options)));
   } catch (error) {

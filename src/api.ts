@@ -33,28 +33,29 @@ export const sendRequest = async <Request, Response>(
   options: Options
 ): Promise<ResponseOrError<Response>> => {
   const url = new URL(`${options.endpoint}/${options.index}/${path}`);
-  const body = JSON.stringify(document);
 
-  const headers = signRequest(
-    {
-      method,
-      path: url.pathname,
-      body,
-      service: 'es',
-      headers: {
-        'Content-Type': 'application/json',
-        Host: url.hostname
-      }
-    },
-    {
-      accessKeyId: options.accessKeyId,
-      secretAccessKey: options.secretAccessKey
+  const request: SignRequest = {
+    method,
+    path: url.pathname,
+    service: 'es',
+    headers: {
+      'Content-Type': 'application/json',
+      Host: url.hostname
     }
-  );
+  };
+
+  if (method !== 'GET') {
+    request.body = JSON.stringify(document);
+  }
+
+  const headers = signRequest(request, {
+    accessKeyId: options.accessKeyId,
+    secretAccessKey: options.secretAccessKey
+  });
 
   const response = await fetch(url.href, {
     method: method,
-    body: body,
+    body: request.body,
     headers
   });
 

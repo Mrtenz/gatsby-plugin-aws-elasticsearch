@@ -1,5 +1,46 @@
 import { sendRequest } from './api';
-import { DefaultDocument, DocumentHit, DocumentID, Options } from './types';
+import { DefaultDocument, DocumentHit, DocumentID, MappingOptions, Options } from './types';
+
+const getIndex = async (options: Options): Promise<boolean> => {
+  // TODO: Response type
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  const [error] = await sendRequest<{}, {}>('GET', '', {}, options);
+  return !error;
+};
+
+export const createIndex = async (options: Options): Promise<void> => {
+  if (await getIndex(options)) {
+    return;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  const [error] = await sendRequest<{}, {}>('PUT', '', {}, options);
+
+  if (error) {
+    throw new Error('Failed to create index');
+  }
+};
+
+export interface SetMappingRequest {
+  properties: MappingOptions;
+}
+
+export const setMapping = async (options: Options): Promise<void> => {
+  if (!options.mapping) {
+    return;
+  }
+
+  const request: SetMappingRequest = {
+    properties: options.mapping
+  };
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  const [error] = await sendRequest<SetMappingRequest, {}>('PUT', '_mapping', request, options);
+
+  if (error) {
+    throw new Error('Failed to set mapping for index');
+  }
+};
 
 export interface ListRequest {
   from: number;
@@ -116,9 +157,6 @@ export const updateDocument = async <Document = DefaultDocument>(
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface DeleteRequest {}
-
 export interface DeleteResponse {
   result: string;
 }
@@ -131,7 +169,8 @@ export interface DeleteResponse {
  * @return {Promise<void>}
  */
 export const deleteDocument = async (id: string, options: Options): Promise<void> => {
-  const [error, response] = await sendRequest<DeleteRequest, DeleteResponse>('DELETE', `_doc/${id}`, {}, options);
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  const [error, response] = await sendRequest<{}, DeleteResponse>('DELETE', `_doc/${id}`, {}, options);
 
   if (error || !response) {
     throw new Error('Failed to delete document');

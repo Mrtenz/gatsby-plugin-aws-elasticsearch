@@ -95,10 +95,24 @@ The following options are available:
   }
   ```
 
-* `index` - The name of the index to insert the data into.
+* `index` - The name of the index to insert the data into. If the index does not exist, it will be created.
   ```js
   {
     index: 'articles'
+  }
+  ```
+
+* `mapping` - An object with the mapping info for the index. This will overwrite the current settings for the index. Please refer to [the Elasticsearch docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html) for an overview of the options.
+  ```js
+  {
+    mapping: {
+      title: {
+        type: 'keyword'
+      },
+      excerpt: {
+        type: 'text'
+      }
+    }
   }
   ```
 

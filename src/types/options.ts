@@ -1,5 +1,5 @@
 import { AWSCredentials } from 'aws4';
-import { array, boolean, defaulted, func, object, optional, record, string, StructType } from 'superstruct';
+import { array, boolean, defaulted, func, number, object, optional, record, string, StructType } from 'superstruct';
 import { DefaultDocument, DocumentID } from './document';
 
 export const OptionsStruct = defaulted(
@@ -18,7 +18,8 @@ export const OptionsStruct = defaulted(
       string(),
       object({
         type: string(),
-        index: optional(boolean())
+        index: optional(boolean()),
+        boost: optional(number())
       })
     ),
 

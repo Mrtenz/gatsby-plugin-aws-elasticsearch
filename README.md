@@ -6,7 +6,7 @@ An experimental plugin for Gatsby to synchronise content between Gatsby and AWS 
 
 ## Requirements
 
-* Node.js v10 or newer.
+* Node.js v12 or newer.
 * An AWS Elasticsearch instance, and API credentials for it.
 
 ## Installation

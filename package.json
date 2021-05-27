@@ -22,7 +22,7 @@
   "types": "typings/index.d.ts",
   "sideEffects": false,
   "engines": {
-    "node": ">=10"
+    "node": ">=12"
   },
   "files": [
     "src",

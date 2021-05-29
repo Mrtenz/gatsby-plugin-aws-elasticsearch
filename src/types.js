@@ -9,8 +9,8 @@ const OptionsStruct = defaulted(
     endpoint: string(),
     index: string(),
 
-    accessKeyId: string(),
-    secretAccessKey: string(),
+    accessKeyId: optional(string()),
+    secretAccessKey: optional(string()),
 
     mapping: record(
       string(),

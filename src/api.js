@@ -1,5 +1,5 @@
 const { sign } = require('aws4');
-const { fetch } = require('node-fetch');
+const fetch = require('node-fetch');
 
 /**
  * Sign a request with the AWS credentials.
@@ -53,6 +53,8 @@ const sendRequest = async (method, path, document, options) => {
 
   if (!response.ok) {
     // TODO: Provide more information about error
+    // eslint-disable-next-line no-console
+    console.error(response);
     return [true, undefined];
   }
 

@@ -76,6 +76,8 @@ const createDocument = async (_id, _document, options) => {
   const [error, response] = await sendRequest('POST', `_doc/${_id}`, _document, options);
 
   if (error || !response) {
+    // eslint-disable-next-line no-console
+    console.log(_id, _document, options, error, response);
     throw new Error('Failed to create document');
   }
 };

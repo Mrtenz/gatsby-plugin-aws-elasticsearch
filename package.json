@@ -18,8 +18,8 @@
     "elasticsearch"
   ],
   "license": "MIT",
-  "main": "index.js",
-  "types": "typings/index.d.ts",
+  "main": "lib/index.js",
+  "module": "src/index.ts",
   "sideEffects": false,
   "engines": {
     "node": ">=12"
@@ -32,12 +32,10 @@
     "gatsby-node.js"
   ],
   "scripts": {
-    "clean": "rimraf lib types",
-    "build": "yarn clean && yarn build:source && yarn build:types",
-    "build:source": "babel --extensions '.ts' src --out-dir lib",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir typings",
-    "lint": "yarn run lint:types && yarn run lint:source && yarn run lint:format",
-    "lint:types": "tsc --noEmit",
+    "clean": "rimraf lib",
+    "build": "yarn clean && yarn build:source",
+    "build:source": "babel --extensions '.rs' src --out-dir lib",
+    "lint": "yarn run lint:source && yarn run lint:format",
     "lint:source": "eslint . --ignore-path .gitignore --ext .ts,.tsx,.js,.jsx",
     "lint:format": "prettier --check --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'",
     "test": "jest",
@@ -45,7 +43,10 @@
     "prepare": "yarn build"
   },
   "dependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/eslint-parser": "^7.14.4",
     "aws4": "^1.10.1",
+    "eslint": "^7.27.0",
     "node-fetch": "^2.6.1",
     "superstruct": "^0.10.12"
   },
@@ -54,16 +55,11 @@
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
-    "@babel/preset-typescript": "^7.10.4",
-    "@types/jest": "^26.0.14",
-    "@types/node-fetch": "^2.5.7",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
-    "@typescript-eslint/parser": "^4.3.0",
     "babel-jest": "^26.5.0",
-    "eslint": "^7.10.0",
+    "eslint": "^7.27.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.0.2",
+    "eslint-plugin-jest": "^24.3.6",
     "gatsby": "^2.24.67",
     "husky": "^4.3.0",
     "jest": "^26.5.0",
@@ -71,9 +67,7 @@
     "prettier": "^2.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "rimraf": "^3.0.2",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "rimraf": "^3.0.2"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [

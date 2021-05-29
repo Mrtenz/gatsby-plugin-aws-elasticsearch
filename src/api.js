@@ -1,6 +1,5 @@
-import { AWSCredentials, sign, SignRequest } from 'aws4';
+import { sign } from 'aws4';
 import fetch from 'node-fetch';
-import { Options } from './types';
 
 /**
  * Sign a request with the AWS credentials.
@@ -8,13 +7,11 @@ import { Options } from './types';
  * @param {SignRequest} options
  * @param {AWSCredentials} credentials
  */
-export const signRequest = (options: SignRequest, credentials: AWSCredentials): Record<string, string> => {
+export const signRequest = (options, credentials) => {
   // aws4 modifies the original object so we create a copy here
   const { headers } = sign({ ...options, headers: { ...options.headers } }, credentials);
-  return headers as Record<string, string>;
+  return headers;
 };
-
-type ResponseOrError<Response> = [true, undefined] | [false, Response];
 
 /**
  * Sign and send a request to the endpoint.
@@ -26,15 +23,10 @@ type ResponseOrError<Response> = [true, undefined] | [false, Response];
  * @param {RequestMethod<Document>[Method]} document
  * @param {Options} options
  */
-export const sendRequest = async <Request, Response>(
-  method: 'GET' | 'PUT' | 'POST' | 'DELETE',
-  path: string,
-  document: Request,
-  options: Options
-): Promise<ResponseOrError<Response>> => {
+export const sendRequest = async (method, path, document, options) => {
   const url = new URL(`${options.endpoint}/${options.index}/${path}`);
 
-  const request: SignRequest = {
+  const request = {
     method,
     path: url.pathname,
     service: 'es',

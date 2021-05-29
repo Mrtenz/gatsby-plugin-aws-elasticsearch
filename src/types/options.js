@@ -1,6 +1,4 @@
-import { AWSCredentials } from 'aws4';
-import { array, boolean, defaulted, func, number, object, optional, record, string, StructType } from 'superstruct';
-import { DefaultDocument, DocumentID } from './document';
+import { array, boolean, defaulted, func, number, object, optional, record, string } from 'superstruct';
 
 export const OptionsStruct = defaulted(
   object({
@@ -30,13 +28,3 @@ export const OptionsStruct = defaulted(
     enabled: false
   }
 );
-
-export type Options<
-  Data = unknown,
-  Node = Record<string, unknown>,
-  Document extends DocumentID = DefaultDocument
-> = AWSCredentials &
-  StructType<typeof OptionsStruct> & {
-    selector(data: Data): Node[];
-    toDocument(node: Node): Document;
-  };

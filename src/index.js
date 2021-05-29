@@ -1,13 +1,12 @@
-import { BuildArgs } from 'gatsby';
 import { validate } from 'superstruct';
 import { createIndex, listDocuments, setMapping } from './elasticsearch';
 import { checkDocument, checkNode } from './matcher';
-import { Options, OptionsStruct } from './types';
+import { OptionsStruct } from './types';
 
 /**
  * Hooks into Gatsby's build process. This function fetches and parses the data to synchronise with AWS Elasticsearch.
  */
-export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, rawOptions: Options): Promise<void> => {
+export const createPagesStatefully = async ({ graphql, reporter }, rawOptions) => {
   if (!rawOptions || !rawOptions.enabled) {
     return reporter.info('Skipping synchronisation with Elasticsearch');
   }
@@ -17,9 +16,9 @@ export const createPagesStatefully = async ({ graphql, reporter }: BuildArgs, ra
     return reporter.panic('gatsby-plugin-aws-elasticsearch: Invalid or missing options:', error);
   }
 
-  const options = validatedOptions as Options;
+  const options = validatedOptions;
 
-  const { errors, data } = await graphql(options.query as string);
+  const { errors, data } = await graphql(options.query);
   if (errors) {
     return reporter.panic('gatsby-plugin-aws-elasticsearch: Failed to run query:', errors);
   }

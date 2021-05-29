@@ -92,7 +92,7 @@ const createDocument = async (_id, _document, options) => {
  * @return {Promise<void>}
  */
 const updateDocument = async (_id, _document, options) => {
-  const [error, response] = await sendRequest('PUT', `_doc/${_id}`, document, options);
+  const [error, response] = await sendRequest('PUT', `_doc/${_id}`, _document, options);
 
   if (error || !response) {
     throw new Error('Failed to update document');

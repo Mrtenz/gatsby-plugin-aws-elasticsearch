@@ -1,6 +1,6 @@
-import { createDocument, deleteDocument, updateDocument } from './elasticsearch';
+const { createDocument, deleteDocument, updateDocument } = require('./elasticsearch');
 
-export const checkNode = async (node, documents, options) => {
+const checkNode = async (node, documents, options) => {
   if (!node.id) {
     throw new Error('Node must have an `id` property');
   }
@@ -15,9 +15,11 @@ export const checkNode = async (node, documents, options) => {
   return createDocument(node.id, rest, options);
 };
 
-export const checkDocument = async (document, nodes, options) => {
+const checkDocument = async (document, nodes, options) => {
   const node = nodes.find((node) => node.id === document._id);
   if (!node) {
     return deleteDocument(document._id, options);
   }
 };
+
+module.exports = { checkNode, checkDocument };

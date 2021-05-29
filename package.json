@@ -18,15 +18,13 @@
     "elasticsearch"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "src/index.ts",
+  "main": "index.js",
   "sideEffects": false,
   "engines": {
     "node": ">=12"
   },
   "files": [
     "src",
-    "lib",
     "typings",
     "index.js",
     "gatsby-node.js"

@@ -1,5 +1,5 @@
-import { sign } from 'aws4';
-import fetch from 'node-fetch';
+const { sign } = require('aws4');
+const { fetch } = require('node-fetch');
 
 /**
  * Sign a request with the AWS credentials.
@@ -7,7 +7,7 @@ import fetch from 'node-fetch';
  * @param {SignRequest} options
  * @param {AWSCredentials} credentials
  */
-export const signRequest = (options, credentials) => {
+const signRequest = (options, credentials) => {
   // aws4 modifies the original object so we create a copy here
   const { headers } = sign({ ...options, headers: { ...options.headers } }, credentials);
   return headers;
@@ -23,7 +23,7 @@ export const signRequest = (options, credentials) => {
  * @param {RequestMethod<Document>[Method]} document
  * @param {Options} options
  */
-export const sendRequest = async (method, path, document, options) => {
+const sendRequest = async (method, path, document, options) => {
   const url = new URL(`${options.endpoint}/${options.index}/${path}`);
 
   const request = {
@@ -58,3 +58,5 @@ export const sendRequest = async (method, path, document, options) => {
 
   return [false, await response.json()];
 };
+
+module.exports = { signRequest, sendRequest };

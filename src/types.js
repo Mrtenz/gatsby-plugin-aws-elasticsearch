@@ -1,6 +1,6 @@
-import { array, boolean, defaulted, func, number, object, optional, record, string } from 'superstruct';
+const { array, boolean, defaulted, func, number, object, optional, record, string } = require('superstruct');
 
-export const OptionsStruct = defaulted(
+const OptionsStruct = defaulted(
   object({
     enabled: optional(boolean()),
     query: string(),
@@ -28,3 +28,5 @@ export const OptionsStruct = defaulted(
     enabled: false
   }
 );
+
+module.exports = { OptionsStruct };

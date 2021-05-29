@@ -1,4 +1,4 @@
-import { sendRequest } from './api';
+const { sendRequest } = require('./api');
 
 const getIndex = async (options) => {
   // TODO: Response type
@@ -6,7 +6,7 @@ const getIndex = async (options) => {
   return !error;
 };
 
-export const createIndex = async (options) => {
+const createIndex = async (options) => {
   if (await getIndex(options)) {
     return;
   }
@@ -18,7 +18,7 @@ export const createIndex = async (options) => {
   }
 };
 
-export const setMapping = async (options) => {
+const setMapping = async (options) => {
   if (!options.mapping) {
     return;
   }
@@ -41,7 +41,7 @@ export const setMapping = async (options) => {
  * @param {Options} options
  * @return {Promise<void>}
  */
-export const listDocuments = async (options) => {
+const listDocuments = async (options) => {
   const [error, response] = await sendRequest(
     'POST',
     '_search',
@@ -72,7 +72,7 @@ export const listDocuments = async (options) => {
  * @param {Options} options
  * @return {Promise<void>}
  */
-export const createDocument = async (_id, _document, options) => {
+const createDocument = async (_id, _document, options) => {
   const [error, response] = await sendRequest('POST', `_doc/${_id}`, _document, options);
 
   if (error || !response) {
@@ -89,7 +89,7 @@ export const createDocument = async (_id, _document, options) => {
  * @param {Options} options
  * @return {Promise<void>}
  */
-export const updateDocument = async (_id, _document, options) => {
+const updateDocument = async (_id, _document, options) => {
   const [error, response] = await sendRequest('PUT', `_doc/${_id}`, document, options);
 
   if (error || !response) {
@@ -104,10 +104,12 @@ export const updateDocument = async (_id, _document, options) => {
  * @param {Options} options
  * @return {Promise<void>}
  */
-export const deleteDocument = async (_id, options) => {
+const deleteDocument = async (_id, options) => {
   const [error, response] = await sendRequest('DELETE', `_doc/${_id}`, {}, options);
 
   if (error || !response) {
     throw new Error('Failed to delete document');
   }
 };
+
+module.exports = { listDocuments, setMapping, createIndex, updateDocument, deleteDocument, createDocument };

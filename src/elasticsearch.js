@@ -34,6 +34,22 @@ const setMapping = async (options) => {
   }
 };
 
+const setSettings = async (options) => {
+  if (!options.settings) {
+    return;
+  }
+
+  const request = {
+    properties: options.settings
+  };
+
+  const [error] = await sendRequest('PUT', '_settings', request, options);
+
+  if (error) {
+    throw new Error('Failed to set settings for index');
+  }
+};
+
 /**
  * List all documents.
  *
@@ -114,4 +130,12 @@ const deleteDocument = async (_id, options) => {
   }
 };
 
-module.exports = { listDocuments, setMapping, createIndex, updateDocument, deleteDocument, createDocument };
+module.exports = {
+  listDocuments,
+  setMapping,
+  setSettings,
+  createIndex,
+  updateDocument,
+  deleteDocument,
+  createDocument
+};

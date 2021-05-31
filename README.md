@@ -52,6 +52,14 @@ The following options are available:
   }
   ```
 
+* `provider`: Default `'vanilla'`
+
+  Choices:
+
+  * `vanilla`: No extra params
+  * `aws`: Requires `awsAccessKey`, `secretAccessKey`
+  * `elastic.co`: Requires `apiKey`
+
 * `query` - A GraphQL query to fetch the data.
   ```js
   {
@@ -116,14 +124,14 @@ The following options are available:
   }
   ```
 
-* `accessKeyId` - The AWS IAM access key ID.
+* `accessKeyId` - The AWS IAM access key ID. (`aws` only)
   ```js
   {
     endpoint: process.env.ELASTIC_AWS_ACCESS_KEY_ID
   }
   ```
 
-* `secretAccessKey` - The AWS IAM secret access key.
+* `secretAccessKey` - The AWS IAM secret access key. (`aws` only)
   ```js
   {
     endpoint: process.env.ELASTIC_AWS_SECRET_ACCESS_KEY

@@ -24,8 +24,11 @@ exports.createPagesStatefully = async ({ graphql, reporter }, rawOptions) => {
   }
 
   try {
-    await createIndex(options);
-    await setMapping(options);
+    if (options.provider !== 'elastic.co') {
+      // elastic.co just uses 'documents' and doesn't accept other indexes/mappings
+      await createIndex(options);
+      await setMapping(options);
+    }
 
     const nodes = options.selector(data).map((node) => options.toDocument(node));
     const documents = await listDocuments(options);

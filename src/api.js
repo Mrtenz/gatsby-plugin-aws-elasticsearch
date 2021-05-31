@@ -25,6 +25,7 @@ const signRequest = (options, credentials) => {
  */
 const sendRequest = async (method, _path, _document, options) => {
   const path = _path.replace(/^\/+/, '');
+  // const path = _path.replace(/^\/|\/$/g, '');
   const index = options.index.replace(/^\/|\/$/g, '');
   const endpoint = options.endpoint.replace(/^\/|\/$/g, '');
   const url = new URL(`${endpoint}/${index}/${path}`);
@@ -43,7 +44,7 @@ const sendRequest = async (method, _path, _document, options) => {
     request.body = JSON.stringify(_document);
   }
 
-  let headers = {};
+  let headers = options.request;
 
   switch (options.provider) {
     case 'aws':
@@ -54,12 +55,14 @@ const sendRequest = async (method, _path, _document, options) => {
       break;
     case 'elastic.co':
       // https://www.elastic.co/guide/en/cloud/current/ec-api-authentication.html
-      headers = {
-        ...request.headers,
-        Authorization: `ApiKey ${options.apiKey}`
-      };
+      headers = { ...request.headers, Authorization: `Bearer ${options.apiKey}` };
+      delete headers['Host'];
       break;
     case 'vanilla':
+      headers = signRequest(request, {
+        accessKeyId: options.accessKeyId,
+        secretAccessKey: options.secretAccessKey
+      });
       break;
     default:
       break;

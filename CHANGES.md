@@ -6,3 +6,11 @@
   https://github.com/ianstormtaylor/superstruct/blob/v0.15.2/Changelog.md
 
   Includes support for `assign()`
+
+- Support `provider` of `vanilla`, `aws`, and `elastic.co`
+
+  Configuration:
+
+  - `'aws'` accepts `accessKeyId` and `secretAccessKey`
+  - `'elastic.co'` accepts `apiKey`
+  - `'vanilla'` doesn't use any

@@ -16,15 +16,18 @@ const signRequest = (options, credentials) => {
 /**
  * Sign and send a request to the endpoint.
  *
- * @template Method
- * @template Document
+ * @template method
+ * @template _document
  * @param {Method} method
  * @param {string} path
  * @param {RequestMethod<Document>[Method]} document
  * @param {Options} options
  */
-const sendRequest = async (method, path, document, options) => {
-  const url = new URL(`${options.endpoint}/${options.index}/${path}`);
+const sendRequest = async (method, _path, _document, options) => {
+  const path = _path.replace(/^\/+/, '');
+  const index = options.index.replace(/^\/|\/$/g, '');
+  const endpoint = options.endpoint.replace(/^\/|\/$/g, '');
+  const url = new URL(`${endpoint}/${index}/${path}`);
 
   const request = {
     method,
@@ -37,13 +40,30 @@ const sendRequest = async (method, path, document, options) => {
   };
 
   if (method !== 'GET') {
-    request.body = JSON.stringify(document);
+    request.body = JSON.stringify(_document);
   }
 
-  const headers = signRequest(request, {
-    accessKeyId: options.accessKeyId,
-    secretAccessKey: options.secretAccessKey
-  });
+  let headers = {};
+
+  switch (options.provider) {
+    case 'aws':
+      headers = signRequest(request, {
+        accessKeyId: options.accessKeyId,
+        secretAccessKey: options.secretAccessKey
+      });
+      break;
+    case 'elastic.co':
+      // https://www.elastic.co/guide/en/cloud/current/ec-api-authentication.html
+      headers = {
+        ...request.headers,
+        Authorization: `ApiKey ${options.apiKey}`
+      };
+      break;
+    case 'vanilla':
+      break;
+    default:
+      break;
+  }
 
   const response = await fetch(url.href, {
     method: method,

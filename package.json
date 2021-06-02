@@ -38,7 +38,8 @@
     "lint:format": "prettier --check --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'",
     "test": "jest",
     "format": "prettier --write --ignore-path .gitignore '**/*.{ts,tsx,js,jsx,json}'",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "ncu": "ncu"
   },
   "dependencies": {
     "@babel/core": "^7.14.3",

@@ -77,7 +77,11 @@ const sendRequest = async (method, _path, _document, options) => {
   if (!response.ok) {
     // TODO: Provide more information about error
     // eslint-disable-next-line no-console
-    console.error(response);
+    console.error('body:', request.body);
+    // eslint-disable-next-line no-console
+    console.error('response:', response);
+    // eslint-disable-next-line no-console
+    console.error('json:', await response.json());
     return [true, undefined];
   }
 

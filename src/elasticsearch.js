@@ -18,6 +18,22 @@ const createIndex = async (options) => {
   }
 };
 
+const getMapping = async (options) => {
+  if (!options.mapping) {
+    return;
+  }
+
+  const [error, response] = await sendRequest('GET', '_mapping', {}, options);
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    throw new Error('Failed to get mappings for index');
+  }
+
+  return response;
+};
+
 const setMapping = async (options) => {
   if (!options.mapping) {
     return;
@@ -30,6 +46,8 @@ const setMapping = async (options) => {
   const [error] = await sendRequest('PUT', '_mapping', request, options);
 
   if (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
     throw new Error('Failed to set mapping for index');
   }
 };
@@ -132,6 +150,7 @@ const deleteDocument = async (_id, options) => {
 
 module.exports = {
   listDocuments,
+  getMapping,
   setMapping,
   setSettings,
   createIndex,

@@ -14,3 +14,5 @@
   - `'aws'` accepts `accessKeyId` and `secretAccessKey`
   - `'elastic.co'` accepts `apiKey`
   - `'vanilla'` doesn't use any
+
+- Check for existing mappings, avoid errors when recreating

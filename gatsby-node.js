@@ -34,7 +34,7 @@ exports.createPagesStatefully = async ({ graphql, reporter }, rawOptions) => {
         ...options,
         mapping: Object.fromEntries(
           Object.entries(options.mapping).filter(([key, _]) => {
-            return !Object.keys(existingIndexes).includes(key);
+            return !Object.keys(existingIndexes || []).includes(key);
           })
         )
       });

@@ -13,14 +13,14 @@ exports.createPagesStatefully = async ({ graphql, reporter }, rawOptions) => {
 
   const [error, validatedOptions] = validate(rawOptions, OptionsStruct);
   if (error || !validatedOptions) {
-    return reporter.panic('gatsby-plugin-aws-elasticsearch: Invalid or missing options:', error);
+    return reporter.panic('gatsby-plugin-elasticsearch-search: Invalid or missing options:', error);
   }
 
   const options = validatedOptions;
 
   const { errors, data } = await graphql(options.query);
   if (errors) {
-    return reporter.panic('gatsby-plugin-aws-elasticsearch: Failed to run query:', errors);
+    return reporter.panic('gatsby-plugin-elasticsearch-search: Failed to run query:', errors);
   }
 
   try {
@@ -46,6 +46,6 @@ exports.createPagesStatefully = async ({ graphql, reporter }, rawOptions) => {
     await Promise.all(nodes.map((node) => checkNode(node, documents, options)));
     await Promise.all(documents.map((document) => checkDocument(document, nodes, options)));
   } catch (error) {
-    return reporter.panic('gatsby-plugin-aws-elasticsearch: Failed to synchronise with Elasticsearch:', error);
+    return reporter.panic('gatsby-plugin-elasticsearch-search: Failed to synchronise with Elasticsearch:', error);
   }
 };

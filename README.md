@@ -1,4 +1,4 @@
-# gatsby-plugin-elasticsearch-search &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tony/gatsby-plugin-elasticsearch-search/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/gatsby-plugin-elasticsearch-search.svg?style=flat)](https://www.npmjs.com/package/gatsby-plugin-elasticsearch-search)
+# @tony/gatsby-plugin-elasticsearch-search &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/tony/gatsby-plugin-elasticsearch-search/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/@tony/gatsby-plugin-elasticsearch-search.svg?style=flat)](https://www.npmjs.com/package/@tony/gatsby-plugin-elasticsearch-search)
 
 An experimental plugin for Gatsby to synchronise content between Gatsby and AWS Elasticsearch. You can write a GraphQL query to fetch the data, and parse it to a format which will be used for Elasticsearch.
 
@@ -12,13 +12,13 @@ An experimental plugin for Gatsby to synchronise content between Gatsby and AWS 
 First, install the package using `npm` or `yarn`.
 
 ```
-yarn add -D gatsby-plugin-aws-elasticsearch
+yarn add -D @tony/gatsby-plugin-elasticsearch-search
 ```
 
 or
 
 ```
-npm install --save-dev gatsby-plugin-aws-elasticsearch
+npm install --save-dev @tony/gatsby-plugin-elasticsearch-search
 ```
 
 ## Getting started
@@ -30,7 +30,7 @@ export default {
   // ...
   plugins: [
     {
-      resolve: 'gatsby-plugin-aws-elasticsearch',
+      resolve: '@tony/gatsby-plugin-elasticsearch-search',
       options: {
         // See below
       }

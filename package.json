@@ -1,20 +1,21 @@
 {
-  "name": "@parataxic/gatsby-plugin-aws-elasticsearch",
+  "name": "@tony/gatsby-plugin-elasticsearch-search",
   "version": "0.2.1",
-  "description": "A plugin for Gatsby to synchronise content between Gatsby and AWS Elasticsearch",
-  "author": "Maarten Zuidhoorn <maarten@zuidhoorn.com>",
-  "homepage": "https://github.com/Mrtenz/gatsby-plugin-aws-elasticsearch",
+  "description": "A plugin for Gatsby to synchronise content between Gatsby and Elasticsearch",
+  "author": "Tony Narlock <tony@git-pull.com>",
+  "homepage": "https://github.com/tony/gatsby-plugin-elasticsearch-search",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mrtenz/gatsby-plugin-aws-elasticsearch.git"
+    "url": "https://github.com/tony/gatsby-plugin-elasticsearch-search.git"
   },
   "bugs": {
-    "url": "https://github.com/Mrtenz/gatsby-plugin-aws-elasticsearch/issues"
+    "url": "https://github.com/tony/gatsby-plugin-elasticsearch-search/issues"
   },
   "keywords": [
     "gatsby",
     "gatsby-plugin",
     "aws",
+    "elastic.co",
     "elasticsearch"
   ],
   "license": "MIT",

@@ -1,3 +1,5 @@
+## [v0.3.0](https://github.com/tony/gatsby-plugin-elasticsearch-search/compare/v0.2.1...v0.3.0) (2021-06-06)
+
 - Support normal elasticsearch
   Make `accessKeyId` / `secretAccessKey` key optional in validation schema
 - Convert to ES that works out of the box with gatsby

@@ -10,7 +10,8 @@ const {
   object,
   optional,
   record,
-  string
+  string,
+  union
 } = require('superstruct');
 
 const OptionsStructBase = defaulted(
@@ -37,28 +38,47 @@ const OptionsStructBase = defaulted(
   }),
   {
     enabled: false,
-    provider: 'aws'
+    provider: 'vanilla'
   }
 );
 
-const OptionsStructAWS = assign(
-  OptionsStructBase,
-  object({
-    accessKeyId: string(),
-    secretAccessKey: string()
-  })
-);
+// @elastic/elasticsearch
+// https://github.com/elastic/elasticsearch-js/blob/6464fc6/lib/pool/index.d.ts#L50-L57
+const AuthApiKeyAuth = object({
+  apiKey: union([string(), object({ id: string(), api_key: string() })])
+});
 
-const OptionsStructElasticCo = assign(
-  OptionsStructBase,
-  object({
-    apiKey: string()
-  })
-);
+// @elastic/elasticsearch
+// https://github.com/elastic/elasticsearch-js/blob/6464fc6/lib/pool/index.d.ts#L59-L62
+const BasicAuth = object({
+  username: string(),
+  password: string()
+});
 
-const DEFAULT_OPTIONS = OptionsStructAWS;
+// @elastic/elasticsearch: Either option
+const ESAuth = union([AuthApiKeyAuth, BasicAuth]);
+
+const OptionsStructElasticCo = assign(OptionsStructBase, object({ auth: ESAuth }));
+
+// @elasticsearch + aws adapter
+// https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#constructor-property
+const AWSAuth = object({
+  accessKeyId: string(),
+  secretAccessKey: string(),
+  sessionToken: optional(string()),
+  credentialsProvider: optional(object()),
+  maxRetries: optional(number()),
+  maxRedirects: optional(number()),
+  sslEnabled: optional(boolean())
+});
+
+const OptionsStructAWS = assign(OptionsStructBase, object({ auth: AWSAuth }));
+const OptionsStructDefault = assign(OptionsStructBase, object({ auth: optional(ESAuth) }));
+
+const DEFAULT_OPTIONS = OptionsStructDefault;
 
 const OptionsStruct = dynamic((options) => {
+  console.log(options.provider);
   switch (options.provider) {
     case 'aws':
       return OptionsStructAWS;

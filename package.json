@@ -45,6 +45,8 @@
   "dependencies": {
     "@babel/core": "^7.14.6",
     "@babel/eslint-parser": "^7.14.5",
+    "@elastic/elasticsearch": "^7.13.0",
+    "aws-elasticsearch-connector": "^9.0.3",
     "aws4": "^1.11.0",
     "node-fetch": "^2.6.1",
     "superstruct": "^0.15.2"
